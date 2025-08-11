@@ -34,11 +34,9 @@ exports.createBook = async (req, res) => {
 // Show Edit Book form
 exports.getEditForm = async (req, res) => {
   try {
-    // Validate the ID
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).send('Invalid book ID');
     }
-
     const books = await Book.findById(req.params.id)
       .select('bookName price description category');
 
@@ -46,6 +44,7 @@ exports.getEditForm = async (req, res) => {
       return res.status(404).send('Book not found');
     }
 
+    // Render your edit form view, passing the book object as 'books'
     res.render('pages/edit-book', { title: 'Edit Book', books });
   } catch (error) {
     res.status(500).send('Error loading book: ' + error.message);

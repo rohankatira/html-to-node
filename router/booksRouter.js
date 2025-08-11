@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bookController = require('../controller/bookscontroller');
+const bookController = require('../controller/books.controller');
 
 // Show Add Book form
 router.get('/addBook', bookController.getCreateForm);

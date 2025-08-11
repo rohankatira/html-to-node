@@ -7,32 +7,27 @@ const bookRoutes = require("./router/booksRouter"); // CRUD routes
 const app = express();
 const PORT = 8081; // Hardcoded without env
 
-// ======================
+
 // Connect to MongoDB Atlas
-// ======================
 connectDB();
 
-// ======================
 // Middleware
-// ======================
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Static files (CSS, JS, Images)
-app.use(express.static(path.join(__dirname, "public")));
+// Static files 
+app.use(express.static("public"));
 
-// View Engine (EJS)
+// View Engine 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// ======================
+
 // Routes
-// ======================
 app.use("/", bookRoutes);
 
-// ======================
+
 // Start Server
-// ======================
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
