@@ -1,164 +1,184 @@
-# 📄 Project Documentation: Node.js Express EJS Web App
-
-## 📝 Overview
-
-A robust, extensible Node.js web application leveraging **Express.js** and **EJS** for rapid development and server-side rendering. This template is ideal for scalable sites, dashboards, and admin panels.
-
-## 🚀 Features
-
-- ⚡ **Express.js**: High-performance routing \& middleware.
-- 🖼️ **EJS**: Templating for dynamic HTML.
-- 📂 **Static File Serving**: `/public` directory for assets.
-- 🗂️ **Views \& Routing:**
-    - 🏠 `/` — Home page
-    - 📋 `/tables` — Tables view
-    - 📝 `/form-basic` — Basic form view
-    - 🔗 `/form-wizard` — Form wizard view
 
 
-## 📁 Directory Structure
+# 📄 Node.js Express EJS Web App
 
-```text
+## 📝 Overview  
+A robust Node.js web application built with **Express.js** and **EJS** templating for dynamic server-side rendering.  
+Includes a **Book Management Module** with full CRUD functionality, and templated pages ideal for dashboards or admin panels.
+
+***
+
+## 🚀 Features  
+- ⚡ **Express.js**: Structured routing and middleware.  
+- 🖼️ **EJS Templates**: Dynamic HTML rendering on the server.  
+- 📚 **Book Management**: Add, edit, delete, and view books easily.  
+- 🌐 **Static Assets**: CSS, JS, images served from `/public`.  
+- 📊 **UI Enhancements**: Includes scripts for ripple effects, sidebar navigation, and sparkline charts.
+
+***
+
+## 📁 Folder Structure  
+```
 project-root/
-├── index.js               # Main server file
+├── index.js                # Main server file
 ├── package.json
 ├── package-lock.json
+├── /routes
+│   └── booksRouter.js      # Book CRUD routes
+├── /controller
+│   └── books.controller.js # Books controller handling logic
 ├── /views
-│   ├── index.ejs
+│   ├── index.ejs           # Home page
 │   └── /pages
 │       ├── tables.ejs
 │       ├── form-basic.ejs
 │       └── form-wizard.ejs
-└── /public                # CSS/JS/images
+├── /public
+│   ├── js/                 # JavaScript assets (waves.js, sidebar, charts)
+│   ├── css/                # Stylesheets
+│   └── images/             # Images
+└── README.md
 ```
 
+***
 
-## 🛠️ Installation \& Setup
-
-1. 📦 **Clone this repository**
-2. 💻 **Install Node.js (v18+)**: [Get Node.js](https://nodejs.org/)
-3. 🔧 **Install dependencies**:
-
+## 🛠️ Installation & Setup  
 ```bash
+# 1. Clone the repository
+git clone 
+cd 
+
+# 2. Install dependencies
 npm install
+
+# 3. Run the server
+# Development mode (auto-reload)
+npx nodemon index.js
+# Production mode
+node index.js
 ```
 
-4. ▶️ **Run the server**:
-    - For development (auto-reload):
-`npx nodemon index.js`
-    - For production:
-`node index.js`
-5. 🌐 **Visit locally**: `http://localhost:8081`
-6. 🚀 **Deployed Live Demo**: [https://html-to-node.onrender.com/](https://html-to-node.onrender.com/)
+**Access the app:**  
+- Locally: http://localhost:8081  
+- Deployed Live Demo: [https://html-to-node-2.onrender.com/](https://html-to-node-2.onrender.com/)
 
-## 📚 Code Overview
+***
 
-**index.js**
-
+## 📜 Main Server (`index.js`)  
 ```js
 const express = require("express");
 const app = express();
 const port = 8081;
 
 app.set("view engine", "ejs");
-app.use(express.static("public"))
+app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-  res.render("index")
-})
+// Books module routes
+app.use('/books', require('./routes/booksRouter'));
 
-app.get("/tables", (req, res) => {
-  res.render("pages/tables")
-})
+// Static page routes
+app.get("/", (req, res) => res.render("index"));
+app.get("/tables", (req, res) => res.render("pages/tables"));
+app.get("/form-basic", (req, res) => res.render("pages/form-basic"));
+app.get("/form-wizard", (req, res) => res.render("pages/form-wizard"));
 
-app.get("/form-basic", (req, res) => {
-  res.render("pages/form-basic")
-})
-
-app.get("/form-wizard", (req, res) => {
-  res.render("pages/form-wizard")
-})
-
-app.listen(port, (err) => {
-  if(err){
-    console.log(err);
-  } else {
-    console.log("server is started", port);
-  }
-})
+app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
 ```
 
+***
 
-## ➕ Adding New Routes \& Views
-
-1. 📝 **Create a new EJS view** in `/views` or `/views/pages/`
-2. 🛤️ **Add a route** in `index.js`:
+## 🔗 Books Router (`routes/booksRouter.js`)  
+Handles all book CRUD routes:
 
 ```js
-app.get('/your-route', (req, res) => res.render('pages/your-view'));
+const express = require('express');
+const router = express.Router();
+const bookController = require('../controller/books.controller');
+
+// Show Add Book form
+router.get('/addBook', bookController.getCreateForm);
+
+// Handle new book creation
+router.post('/create', bookController.createBook);
+
+// Show Edit Book form
+router.get('/edit/:id', bookController.getEditForm);
+
+// Handle book update
+router.post('/update/:id', bookController.updateBook);
+
+// Delete a book
+router.get('/delete/:id', bookController.deleteBook);
+
+// Books list table
+router.get('/booksList', bookController.getAllBooks);
+
+// Home / index page route (optional)
+router.get('/', bookController.homePage);
+
+module.exports = router;
 ```
 
+> ⚠️ Implement the controller logic inside `books.controller.js` for handling database actions, validation, and form response rendering.
 
-## 🎨 Static Assets
+***
 
-- All `/public` files are web-accessible and usable in EJS.
-- Example:
+## 🎨 Static Assets  
+All files placed in the `/public` directory are accessible in your EJS templates using relative paths from root, for example:
 
 ```html
-<link rel="stylesheet" href="/style.css">
+
+
+
+
+
 ```
 
+Key included scripts:  
+- ⚡ `waves.js` — Material ripple effects on buttons  
+- 📋 `sidebarmenu.js` — Sidebar navigation and menu handling  
+- 📈 `jquery.charts-sparkline.js` — Sparkline and chart demos for UI visualization
 
-## 📦 Dependencies
+***
 
-| 📦 Package | 📃 Purpose |
-| :-- | :-- |
-| express | Web routing/middleware |
-| ejs | Dynamic HTML templating |
-| nodemon | Dev server auto-restart |
+## ➕ Adding New Pages  
+To add new pages:
 
-## 🖥️ Example EJS Usage
+1. Create an `.ejs` file inside `/views` or `/views/pages`.  
+2. Add a new route in `index.js`, for example:
 
-```ejs
-<!-- views/index.ejs -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Home</title>
-  <link rel="stylesheet" href="/style.css">
-</head>
-<body>
-  <h1>🏠 Welcome to Home Page!</h1>
-  <a href="/tables">📋 Tables</a>
-  <a href="/form-basic">📝 Basic Form</a>
-  <a href="/form-wizard">🔗 Form Wizard</a>
-</body>
-</html>
+```js
+app.get('/new-page', (req, res) => {
+  res.render('pages/new-page');
+});
 ```
 
+***
 
-## 🧩 Notes
+## 📦 Dependencies  
+| 📦 Package | Purpose                         |
+| :--------- | :------------------------------|
+| express   | Web server and routing          |
+| ejs       | Server-side HTML templating     |
+| nodemon   | Development server auto-reload  |
 
-- **Node Version:** Express 5.x (Node.js ≥18 required).
-- **Template Directory:** `views/` and subfolders.
-- **Deployment:** Use `node index.js` and process managers (e.g., PM2) in production.
+***
 
+## ⚠️ Troubleshooting  
+- **EJS rendering errors:** Confirm view file names and render paths match exactly.  
+- **404 errors:** Check route declarations and folder structure.  
+- **Port conflicts:** Change the port value in `index.js` (default 8081).  
 
-## 🛑 Troubleshooting
+***
 
-- ❗ *EJS errors*: File names/paths must match routes.
-- ❓ *404*: Check route and view map.
-- 🔁 *Port in use*: Change `const port = 8081` in `index.js`.
+## ⚖ License  
+ISC License (see `package.json`)
 
+***
 
-## ⚖ License
+## 👤 Author  
+**rohankatitra**
 
-ISC (see `package.json` for details).
+For detailed usage, refer to official Express.js and EJS documentation.
 
-## 👤 Author
-
-rohankatitra
-
-_See also: official Express.js guide and EJS documentation._
-
-
+***
