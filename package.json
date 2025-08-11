@@ -1,7 +1,7 @@
 {
   "name": "day_3",
   "version": "1.0.0",
-  "description": "",
+  "description": "A robust, extensible Node.js web application leveraging **Express.js** and **EJS** for rapid development and server-side rendering. This template is ideal for scalable sites, dashboards, and admin panels.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,8 +13,18 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "body-parser": "^2.2.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "mongoose": "^8.17.1",
     "nodemon": "^3.1.10"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohankatira/html-to-node.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rohankatira/html-to-node/issues"
+  },
+  "homepage": "https://github.com/rohankatira/html-to-node#readme"
 }

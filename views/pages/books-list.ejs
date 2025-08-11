@@ -1,0 +1,76 @@
+<%- include('../partials/header', { title: 'Books List' }) %>
+
+<div class="page-wrapper">
+
+  <!-- Breadcrumb -->
+  <div class="page-breadcrumb">
+    <div class="row">
+      <div class="col-12 d-flex no-block align-items-center">
+        <h4 class="page-title">Books Table</h4>
+        <div class="ms-auto text-end">
+          <nav aria-label="breadcrumb " class="">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">books list</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Books List</h3>
+            <div class="table-responsive">
+              <table id="zero_config" class="table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Book Name</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% if (bookData && bookData.length > 0) { %>
+                    <% bookData.forEach((val, idx) => { %>
+                      <tr>
+                        <td><%= idx + 1 %></td>
+                        <td><%= val.bookName %></td>
+                        <td>₹<%= val.price %></td>
+                        <td><%= val.description %></td>
+                        <td><%= val.category %></td>
+                        <td>
+                          <a href="/edit/<%= val._id %>" class="btn btn-warning btn-sm me-1">Edit</a>
+                          <a href="/delete/<%= val._id %>" 
+                             onclick="return confirm('Are you sure you want to delete this book?');"
+                             class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  <% } else { %>
+                    <tr>
+                      <td colspan="6" class="text-center text-muted">No books found</td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<%- include('../partials/footer') %>
